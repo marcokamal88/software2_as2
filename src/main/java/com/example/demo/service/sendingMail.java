@@ -29,7 +29,7 @@ public class sendingMail implements Notifications {
     private String fromMail;
 
     @Override
-    public String sendNotification( ) {
+    public String sendNotification() {
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setFrom(fromMail);
