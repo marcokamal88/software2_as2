@@ -8,20 +8,34 @@ import org.springframework.mail.javamail.*;
 import org.springframework.stereotype.Service;
 
 @Service
-public class NotificationsImpl implements Notifications {
+public class sendingMail implements Notifications {
+    private String mail;
+    private Mail mailStructure;
+    public String getMail() {
+        return mail;
+    }
+    public void setMail(String mail) {
+        this.mail=mail;
+    }
+    public void setmailStructure(Mail mailStructure) {
+        this.mailStructure=mailStructure;
+    }   
+    public Mail getMailStructure() {
+        return mailStructure;
+    }
     @Autowired
     private JavaMailSender mailsender;
     @Value("$(spring.mail.username)")
     private String fromMail;
 
     @Override
-    public String sendNotification(String mail, Mail mailStructure) {
+    public String sendNotification( ) {
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setFrom(fromMail);
-            mailMessage.setSubject("mailStructure.getSubject()");
-            mailMessage.setText("mailStructure.getMessage()");
-            mailMessage.setTo(mail);
+            mailMessage.setSubject("supject");
+            mailMessage.setText("this is text of massage");
+            mailMessage.setTo(getMail());
             mailsender.send(mailMessage);
             return "Mail sent successfully";
         } catch (Exception e) {

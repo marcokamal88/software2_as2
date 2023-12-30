@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.service.NotificationsImpl;
+import com.example.demo.service.sendingMail;
 import com.example.demo.model.Mail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/mail", method = {RequestMethod.GET, RequestMethod.POST})
 public class Controller {
     @Autowired
-    private NotificationsImpl mailService;
+    private sendingMail mailService;
 
     @PostMapping("/sendmail/{mail}")
     public String sendMail(@PathVariable String mail, @RequestBody Mail mailstructure) {
-        return mailService.sendNotification(mail, mailstructure);
+        mailService.setMail(mail);
+        mailService.setmailStructure(mailstructure);
+        return mailService.sendNotification();
     }
     @GetMapping("path")
     public String getMethodName() {
