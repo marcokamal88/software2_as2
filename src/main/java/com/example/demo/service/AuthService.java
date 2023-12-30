@@ -45,8 +45,6 @@ public class AuthService {
 
         for(int i = 0 ; i < users_table.size() ; i++){
             User it_user = users_table.get(i);
-            System.out.println(it_user.getEmail());
-            System.out.println(it_user.getPassword());
 
             if(it_user.getEmail().equals(loginData.getEmail()) && it_user.getPassword().equals(loginData.getPassword())){
                 user = it_user;
