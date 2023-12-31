@@ -9,6 +9,17 @@ public class Product {
 
     Integer quantity;
 
+    public Product(Integer id, String serialNumber, String name, String vendor, String category, Double price, Integer quantity){
+
+        this.id = id;
+        this.serialNumber = serialNumber;
+        this.name = name;
+        this.vendor = vendor;
+        this.category = category;
+        this.price = price;
+        this.quantity = quantity;
+
+    }
     public String getSerialNumber() {
         return serialNumber;
     }
