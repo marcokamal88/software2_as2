@@ -14,7 +14,8 @@ import java.util.*;
 public class NotificationService {
 
     Queue<Notification> readyList = new LinkedList<>();
-    ArrayList<String> recievers;
+    ArrayList<String> recievers = new ArrayList<>();
+    
 
     public void start() {
         long delay = 2 * 1000; // delay in milliseconds
@@ -44,7 +45,8 @@ public class NotificationService {
         recievers.add(newNoti.getTo());
     }
 
-    public String GetMostNotified(ArrayList<String> recievers) {
+    public String GetMostNotified() {
+        
         int n = recievers.size();
         int max_count = 0;
         String maxfreq = "";

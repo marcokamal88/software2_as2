@@ -16,20 +16,15 @@ import java.util.stream.Collectors;
 public class OrdersService {
     @Autowired
     AuthService auth_service;
-    public ArrayList<Order> orders_table = new ArrayList<Order>() {};
-
-<<<<<<< HEAD
-    ArrayList<Order> orders_table = new ArrayList<Order>() {
+    public ArrayList<Order> orders_table = new ArrayList<Order>() {
     };
 
-    public void addOrder(CreateOrderInput input_data) {
-
-=======
     private ArrayList<OrderItem> createOrderItems(ArrayList<OrderItemInput> itemInputs) {
         return itemInputs.stream()
                 .map(itemInput -> new OrderItem(itemInput.getQuantity(), itemInput.getProduct()))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
+
     private ArrayList<Order> createSubOrders(ArrayList<CreateOrderInput> subOrderInputs) {
         if (subOrderInputs != null) {
             return subOrderInputs.stream()
@@ -40,7 +35,7 @@ public class OrdersService {
         }
     }
 
-    public Order createOrder(CreateOrderInput input_data){
+    public Order createOrder(CreateOrderInput input_data) {
         ArrayList<OrderItem> items = createOrderItems(input_data.getOrderItems());
         ArrayList<Order> subOrders = createSubOrders(input_data.getSubOrders());
 
@@ -55,11 +50,11 @@ public class OrdersService {
         newOrder.setUser(user);
         return newOrder;
     }
-    public Order addOrder(CreateOrderInput input_data){
+
+    public Order addOrder(CreateOrderInput input_data) {
         Order newOrder = createOrder(input_data);
         orders_table.add(newOrder);
         return newOrder;
->>>>>>> 92fe938f9681f5aebb4eb1540f1e723f025c8513
     }
 
     public Order getOrder(Integer id) {
@@ -68,14 +63,9 @@ public class OrdersService {
 
         for (int i = 0; i < orders_table.size(); i++) {
             Order it_order = orders_table.get(i);
-<<<<<<< HEAD
-
-            if (it_order.getId() == id) {
-=======
             // print(it_order.getId());
             System.out.println(it_order.getId());
-            if(Objects.equals(it_order.getId(), id)){
->>>>>>> 92fe938f9681f5aebb4eb1540f1e723f025c8513
+            if (Objects.equals(it_order.getId(), id)) {
                 order = it_order;
             }
         }
@@ -84,23 +74,21 @@ public class OrdersService {
 
     }
 
-<<<<<<< HEAD
-=======
     // ship the order
-    public Order shipOrder(Integer id){
+    public Order shipOrder(Integer id) {
         Order order = getOrder(id);
 
-        if(order != null && order.getStatus().equals("pending")){
+        if (order != null && order.getStatus().equals("pending")) {
             order.ship();
             return order;
 
-        }else{
+        } else {
             return null;
         }
 
     }
 
-    private Order cancel(Integer id, String expectedStatus,String newStatus) {
+    private Order cancel(Integer id, String expectedStatus, String newStatus) {
         Order order = getOrder(id);
         if (order != null && order.getStatus().equals(expectedStatus)) {
             LocalDateTime now = LocalDateTime.now();
@@ -119,5 +107,4 @@ public class OrdersService {
     public Order cancelShipping(Integer id) {
         return cancel(id, "shipped", "pending");
     }
->>>>>>> 92fe938f9681f5aebb4eb1540f1e723f025c8513
 }
