@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
-public interface NotificationChnel {
-    void sendNotification(String to,NotificationTemplate template);
+import javax.security.auth.Subject;
+
+public interface NotificationChannel {
+    String sendNotification(String to, String Subject , String text);
 }
