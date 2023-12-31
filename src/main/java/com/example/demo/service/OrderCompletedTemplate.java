@@ -14,8 +14,8 @@ public class OrderCompletedTemplate implements NotificationTemplate {
     @Override
     public String getText(ArrayList<String> params) {
         String str ="Dear {x} , your booking of the {y} is confirmed. thanks for using our store :) ";
-        str.replaceAll("{x}", params.get(0));
-        str.replaceAll("{y}", params.get(1));
+        str = str.replaceAll("\\{x\\}", params.get(0));
+        str = str.replaceAll("\\{y\\}", params.get(1));
         return str;
     }
 }

@@ -1,9 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.model.CreateOrderInput;
-import com.example.demo.model.Order;
-import com.example.demo.model.OrderItemInput;
-import com.example.demo.model.User;
+import com.example.demo.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +13,10 @@ import java.util.stream.Collectors;
 public class OrdersService {
     @Autowired
     AuthService auth_service;
+    @Autowired
+    NotificationService notification_service;
     public ArrayList<Order> orders_table = new ArrayList<Order>() {};
 
-<<<<<<< HEAD
-    ArrayList<Order> orders_table = new ArrayList<Order>() {
-    };
-
-    public void addOrder(CreateOrderInput input_data) {
-
-=======
     private ArrayList<OrderItem> createOrderItems(ArrayList<OrderItemInput> itemInputs) {
         return itemInputs.stream()
                 .map(itemInput -> new OrderItem(itemInput.getQuantity(), itemInput.getProduct()))
@@ -55,11 +47,29 @@ public class OrdersService {
         newOrder.setUser(user);
         return newOrder;
     }
+    private void sendNotification(Order order) {
+        OrderCompletedTemplate template = new OrderCompletedTemplate();
+        ArrayList<String> parameters = new ArrayList<>();
+        parameters.add(order.getUser().getName());
+        parameters.add(order.getId().toString());
+
+        String text = template.getText(parameters);
+
+        Notification newNoti = new Notification(order.getUser().getEmail(),"Order Completed");
+        newNoti.setText(text);
+        notification_service.addToQueue(newNoti);
+    }
     public Order addOrder(CreateOrderInput input_data){
         Order newOrder = createOrder(input_data);
+        if (newOrder == null) {
+            return null;
+        }
         orders_table.add(newOrder);
+
+        // send notification
+        sendNotification(newOrder);
+
         return newOrder;
->>>>>>> 92fe938f9681f5aebb4eb1540f1e723f025c8513
     }
 
     public Order getOrder(Integer id) {
@@ -68,14 +78,10 @@ public class OrdersService {
 
         for (int i = 0; i < orders_table.size(); i++) {
             Order it_order = orders_table.get(i);
-<<<<<<< HEAD
 
-            if (it_order.getId() == id) {
-=======
             // print(it_order.getId());
             System.out.println(it_order.getId());
             if(Objects.equals(it_order.getId(), id)){
->>>>>>> 92fe938f9681f5aebb4eb1540f1e723f025c8513
                 order = it_order;
             }
         }
@@ -84,8 +90,6 @@ public class OrdersService {
 
     }
 
-<<<<<<< HEAD
-=======
     // ship the order
     public Order shipOrder(Integer id){
         Order order = getOrder(id);
@@ -119,5 +123,4 @@ public class OrdersService {
     public Order cancelShipping(Integer id) {
         return cancel(id, "shipped", "pending");
     }
->>>>>>> 92fe938f9681f5aebb4eb1540f1e723f025c8513
 }

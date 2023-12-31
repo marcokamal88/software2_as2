@@ -8,6 +8,13 @@ public class Notification {
     String to;
     String subject;
     String text;
+
+    // constructor
+    public Notification(String to, String subject){
+        this.to = to;
+        this.subject = subject;
+    }
+
     public String getTo() {
         return to;
     }
@@ -15,5 +22,10 @@ public class Notification {
 
     public void send(){
         channel.sendNotification(to, subject, text);
+    }
+
+
+    public void setText(String text) {
+        this.text = text;
     }
 }

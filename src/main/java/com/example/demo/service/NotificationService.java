@@ -30,7 +30,7 @@ public class NotificationService {
         public void run() {
             if (readyList.size() > 0) {
                 Notification front = readyList.remove();
-                front.send();
+//                front.send();
             }
         }
     }
@@ -41,7 +41,7 @@ public class NotificationService {
 
     public void addToQueue(Notification newNoti) {
         readyList.add(newNoti);
-        recievers.add(newNoti.getTo());
+//        recievers.add(newNoti.getTo());
     }
 
     public String GetMostNotified(ArrayList<String> recievers) {
