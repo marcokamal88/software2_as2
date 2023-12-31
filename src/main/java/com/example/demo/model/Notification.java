@@ -6,8 +6,12 @@ import com.example.demo.service.NotificationTemplate;
 
 public class Notification {
     String to;
-    String Subject;
+    String subject;
     String text;
 
-    NotificationChannel notifications;
+    NotificationChannel channel;
+
+    public void send(){
+        channel.sendNotification(to, subject, text);
+    }
 }

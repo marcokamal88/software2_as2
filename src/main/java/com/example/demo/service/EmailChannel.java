@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 
 public class EmailChannel implements NotificationChannel {
     private JavaMailSender mailsender;
@@ -15,7 +16,7 @@ public class EmailChannel implements NotificationChannel {
         
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setFrom("From Samer");
+            mailMessage.setFrom("samermedhat123@gmail.com");
             mailMessage.setSubject(Subject);
             mailMessage.setText(text);
             mailMessage.setTo(to);
