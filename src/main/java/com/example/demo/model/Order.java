@@ -8,7 +8,7 @@ public class Order {
 
     ArrayList<OrderItem> items;
 
-    Order subOrder;
+    ArrayList<Order> subOrders;
 
     User user;
 
@@ -30,12 +30,13 @@ public class Order {
         this.items = items;
     }
 
-    public Order getSubOrder() {
-        return subOrder;
+
+    public ArrayList<Order> getSubOrders() {
+        return subOrders;
     }
 
-    public void setSubOrder(Order subOrder) {
-        this.subOrder = subOrder;
+    public void setSubOrders(ArrayList<Order> subOrders) {
+        this.subOrders = subOrders;
     }
 
     public User getUser() {
@@ -69,4 +70,26 @@ public class Order {
     public void setShippingAddress(String shippingAddress) {
         this.shippingAddress = shippingAddress;
     }
+
+
+    public String print(){
+
+        String result = "Order "+id + ":\n";
+
+        if(items.size() > 0){
+            for(int i = 0 ; i < items.size() ; i++){
+                result += "Product: " + items.get(i).getProduct().getName() + ", ";
+            }
+        }
+
+        if(subOrders.size() > 0){
+            result += "SubOrders :\n";
+            for(int i = 0 ; i < subOrders.size() ; i++){
+                result += subOrders.get(i).print() + "\n";
+            }
+        }
+
+        return result;
+    }
+
 }
