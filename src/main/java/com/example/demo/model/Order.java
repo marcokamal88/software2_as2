@@ -12,6 +12,10 @@ public class Order {
 
     User user;
 
+    String status;
+
+    Integer id;
+
     Order(ArrayList<OrderItem> items){
         this.items = items;
     }
@@ -30,5 +34,29 @@ public class Order {
 
     public void setSubOrder(Order subOrder) {
         this.subOrder = subOrder;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
