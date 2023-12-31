@@ -1,9 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.model.CreateOrderInput;
-import com.example.demo.model.Order;
-import com.example.demo.model.OrderItemInput;
-import com.example.demo.model.User;
+import com.example.demo.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +13,9 @@ import java.util.stream.Collectors;
 public class OrdersService {
     @Autowired
     AuthService auth_service;
-    public ArrayList<Order> orders_table = new ArrayList<Order>() {
-    };
+    @Autowired
+    NotificationService notification_service;
+    public ArrayList<Order> orders_table = new ArrayList<Order>() {};
 
     private ArrayList<OrderItem> createOrderItems(ArrayList<OrderItemInput> itemInputs) {
         return itemInputs.stream()
@@ -50,10 +48,28 @@ public class OrdersService {
         newOrder.setUser(user);
         return newOrder;
     }
+    private void sendNotification(Order order) {
+        OrderCompletedTemplate template = new OrderCompletedTemplate();
+        ArrayList<String> parameters = new ArrayList<>();
+        parameters.add(order.getUser().getName());
+        parameters.add(order.getId().toString());
 
-    public Order addOrder(CreateOrderInput input_data) {
+        String text = template.getText(parameters);
+
+        Notification newNoti = new Notification(order.getUser().getEmail(),"Order Completed");
+        newNoti.setText(text);
+        notification_service.addToQueue(newNoti,template);
+    }
+    public Order addOrder(CreateOrderInput input_data){
         Order newOrder = createOrder(input_data);
+        if (newOrder == null) {
+            return null;
+        }
         orders_table.add(newOrder);
+
+        // send notification
+        sendNotification(newOrder);
+
         return newOrder;
     }
 
@@ -63,9 +79,10 @@ public class OrdersService {
 
         for (int i = 0; i < orders_table.size(); i++) {
             Order it_order = orders_table.get(i);
+
             // print(it_order.getId());
             System.out.println(it_order.getId());
-            if (Objects.equals(it_order.getId(), id)) {
+            if(Objects.equals(it_order.getId(), id)){
                 order = it_order;
             }
         }

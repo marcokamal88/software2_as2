@@ -3,9 +3,8 @@ package com.example.demo.service;
 import java.util.ArrayList;
 
 public class OrderCompletedTemplate implements NotificationTemplate {
-    private static final String templateName = "OrderCompletedTemplate";
-    public static String getTemplatename() {
-        return templateName;
+    public String getTemplateName(){
+        return "OrderCompletedTemplate";
     }
     public String getSubject() {
         return " order comfirmed ";
@@ -14,8 +13,8 @@ public class OrderCompletedTemplate implements NotificationTemplate {
     @Override
     public String getText(ArrayList<String> params) {
         String str ="Dear {x} , your booking of the {y} is confirmed. thanks for using our store :) ";
-        str.replaceAll("{x}", params.get(0));
-        str.replaceAll("{y}", params.get(1));
+        str = str.replaceAll("\\{x\\}", params.get(0));
+        str = str.replaceAll("\\{y\\}", params.get(1));
         return str;
     }
 }

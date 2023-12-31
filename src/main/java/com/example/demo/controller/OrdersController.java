@@ -8,7 +8,6 @@ import com.example.demo.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 public class OrdersController {
 
@@ -26,7 +25,6 @@ public class OrdersController {
 
         if (order != null) {
             return order.print();
-
         } else {
             return "Order Not Found";
         }
@@ -86,15 +84,23 @@ public class OrdersController {
             return "Order Not Found";
         }
     }
-    
+
     @GetMapping(value = "/most Notified")
     public String mostnotified() {
         try {
-            return"the most nitified email/phone is :"+ notiService.GetMostNotified();
+            return "the most nitified email/phone is :" + notiService.GetMostNotified();
         } catch (Exception e) {
             return e.getMessage();
         }
     }
-    
+
+    @GetMapping(value = "/most Template Used")
+    public String mostTemplateUsed() {
+        try {
+            return "the most nitified tamplate is :" + notiService.GetMostTemplate();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 
 }
