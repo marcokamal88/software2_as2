@@ -20,4 +20,19 @@ public class ProductsService {
 
     }
 
+    public ArrayList<Product> getProducts(){
+        return products_table;
+    }
+
+    public Product getProduct(Integer id){
+        Product product = null;
+        for(int i = 0 ; i < products_table.size() ; i++){
+            Product it_product = products_table.get(i);
+            if(it_product.getId() == id){
+                product = it_product;
+            }
+        }
+        return  product;
+    }
+
 }

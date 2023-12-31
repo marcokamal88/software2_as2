@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import com.example.demo.service.OrderItem;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Order {
@@ -17,9 +18,16 @@ public class Order {
     Integer id;
 
     String shippingAddress;
+    private LocalDateTime placedAt;
 
-    Order(ArrayList<OrderItem> items){
+
+    public Order(ArrayList<OrderItem> items){
         this.items = items;
+        this.placedAt = LocalDateTime.now();
+        this.status = "pending";
+
+        // generate unique id
+        this.id = (int) (Math.random() * 1000000);
     }
 
     public ArrayList<OrderItem> getItems() {
@@ -74,11 +82,12 @@ public class Order {
 
     public String print(){
 
-        String result = "Order "+id + ":\n" + "Status: "+status+"\n";
+        String result = "Order "+id + "\n" + "Status: "+status+"\n" + "Shipping Address: "+shippingAddress+"\n" + "Customer: "+user.getName()+"\n" + "Placed At: "+placedAt+"\n";
 
         if(items.size() > 0){
             for(int i = 0 ; i < items.size() ; i++){
                 result += "Product: " + items.get(i).getProduct().getName() + ", ";
+                result += "Quantity: " + items.get(i).getQuantity() + "\n";
             }
         }
 
@@ -92,4 +101,30 @@ public class Order {
         return result;
     }
 
+    public void ship() {
+        this.status = "shipped";
+        // deduct price from user balance
+        if (this.user == null) {
+            throw new RuntimeException("User is not set");
+        }
+        this.user.setBalance(this.user.getBalance() - this.getTotalPrice());
+        // if suborders exist, ship them too
+        if (this.subOrders != null) {
+            for (Order subOrder : this.subOrders) {
+                subOrder.ship();
+            }
+        }
+    }
+
+    private double getTotalPrice() {
+        double totalPrice = 0;
+        for (OrderItem item : this.items) {
+            totalPrice += item.getQuantity() * item.getProduct().getPrice();
+        }
+        return totalPrice;
+    }
+
+    public LocalDateTime getPlacedAt() {
+        return placedAt;
+    }
 }
