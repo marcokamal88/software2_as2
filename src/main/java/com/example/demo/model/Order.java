@@ -16,6 +16,8 @@ public class Order {
 
     Integer id;
 
+    String shippingAddress;
+
     Order(ArrayList<OrderItem> items){
         this.items = items;
     }
@@ -58,5 +60,13 @@ public class Order {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
     }
 }
