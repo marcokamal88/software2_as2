@@ -74,7 +74,7 @@ public class Order {
 
     public String print(){
 
-        String result = "Order "+id + ":\n";
+        String result = "Order "+id + ":\n" + "Status: "+status+"\n";
 
         if(items.size() > 0){
             for(int i = 0 ; i < items.size() ; i++){
