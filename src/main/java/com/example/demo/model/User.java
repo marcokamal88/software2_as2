@@ -2,7 +2,7 @@ package com.example.demo.model;
 
 public class User {
 
-    Integer id;
+    Integer id, balance;
     String name, email, password;
 
 
@@ -38,5 +38,13 @@ public class User {
     }
     public String getPassword(){
         return password;
+    }
+
+    public Integer getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Integer balance) {
+        this.balance = balance;
     }
 }
