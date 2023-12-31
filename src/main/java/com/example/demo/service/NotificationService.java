@@ -4,17 +4,18 @@ import com.example.demo.model.Notification;
 
 import io.micrometer.common.util.StringUtils;
 
+import org.springframework.boot.autoconfigure.amqp.RabbitProperties.Template;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.NumberUtils;
-
 import java.util.*;
 
 @Service
 public class NotificationService {
 
     Queue<Notification> readyList = new LinkedList<>();
-    ArrayList<String> recievers;
+    ArrayList<String> recievers = new ArrayList<>();
+    ArrayList<String> Templates=new ArrayList<>();
 
     public void start() {
         long delay = 2 * 1000; // delay in milliseconds
@@ -30,7 +31,7 @@ public class NotificationService {
         public void run() {
             if (readyList.size() > 0) {
                 Notification front = readyList.remove();
-//                front.send();
+                // front.send();
             }
         }
     }
@@ -39,12 +40,15 @@ public class NotificationService {
         start();
     }
 
-    public void addToQueue(Notification newNoti) {
+    public void addToQueue(Notification newNoti,OrderCompletedTemplate template) {
         readyList.add(newNoti);
-//        recievers.add(newNoti.getTo());
+        recievers.add(newNoti.getTo());
+        Templates.add(template.getTemplateName());
+        
     }
 
-    public String GetMostNotified(ArrayList<String> recievers) {
+    public String GetMostNotified() {
+
         int n = recievers.size();
         int max_count = 0;
         String maxfreq = "";
@@ -66,4 +70,25 @@ public class NotificationService {
         return maxfreq;
     }
 
+    public String GetMostTemplate() {
+        int n = Templates.size();
+        int max_count = 0;
+        String maxfreq = "";
+
+        // Logic implementation
+        for (int i = 0; i < n; i++) {
+            int count = 0;
+            for (int j = 0; j < n; j++) {
+                if (Templates.get(i) == Templates.get(j)) {
+                    count++;
+                }
+            }
+
+            if (count > max_count) {
+                max_count = count;
+                maxfreq = Templates.get(i);
+            }
+        }
+        return maxfreq;
+    }
 }

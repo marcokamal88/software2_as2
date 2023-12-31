@@ -22,6 +22,7 @@ public class OrdersService {
                 .map(itemInput -> new OrderItem(itemInput.getQuantity(), itemInput.getProduct()))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
+
     private ArrayList<Order> createSubOrders(ArrayList<CreateOrderInput> subOrderInputs) {
         if (subOrderInputs != null) {
             return subOrderInputs.stream()
@@ -32,7 +33,7 @@ public class OrdersService {
         }
     }
 
-    public Order createOrder(CreateOrderInput input_data){
+    public Order createOrder(CreateOrderInput input_data) {
         ArrayList<OrderItem> items = createOrderItems(input_data.getOrderItems());
         ArrayList<Order> subOrders = createSubOrders(input_data.getSubOrders());
 
@@ -57,7 +58,7 @@ public class OrdersService {
 
         Notification newNoti = new Notification(order.getUser().getEmail(),"Order Completed");
         newNoti.setText(text);
-        notification_service.addToQueue(newNoti);
+        notification_service.addToQueue(newNoti,template);
     }
     public Order addOrder(CreateOrderInput input_data){
         Order newOrder = createOrder(input_data);
@@ -91,20 +92,20 @@ public class OrdersService {
     }
 
     // ship the order
-    public Order shipOrder(Integer id){
+    public Order shipOrder(Integer id) {
         Order order = getOrder(id);
 
-        if(order != null && order.getStatus().equals("pending")){
+        if (order != null && order.getStatus().equals("pending")) {
             order.ship();
             return order;
 
-        }else{
+        } else {
             return null;
         }
 
     }
 
-    private Order cancel(Integer id, String expectedStatus,String newStatus) {
+    private Order cancel(Integer id, String expectedStatus, String newStatus) {
         Order order = getOrder(id);
         if (order != null && order.getStatus().equals(expectedStatus)) {
             LocalDateTime now = LocalDateTime.now();
