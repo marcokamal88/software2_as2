@@ -3,6 +3,10 @@ package com.example.demo.service;
 import java.util.ArrayList;
 
 public class OrderCompletedTemplate implements NotificationTemplate {
+    private static final String templateName = "OrderCompletedTemplate";
+    public static String getTemplatename() {
+        return templateName;
+    }
     public String getSubject() {
         return " order comfirmed ";
     }

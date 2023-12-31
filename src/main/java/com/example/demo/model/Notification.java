@@ -8,7 +8,9 @@ public class Notification {
     String to;
     String subject;
     String text;
-
+    public String getTo() {
+        return to;
+    }
     NotificationChannel channel;
 
     public void send(){
