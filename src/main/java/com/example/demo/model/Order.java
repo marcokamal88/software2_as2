@@ -10,6 +10,8 @@ public class Order {
 
     Order subOrder;
 
+    User user;
+
     Order(ArrayList<OrderItem> items){
         this.items = items;
     }
