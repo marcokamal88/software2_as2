@@ -11,7 +11,7 @@ public class AuthService {
 
     ArrayList<User> users_table = new ArrayList<User>(){};
 
-    AuthService(){
+    public AuthService(){
         User u = new User("test1", "test@gmail.com", "123");
         u.setId(1);
         users_table.add(u);
@@ -51,6 +51,18 @@ public class AuthService {
             }
         }
 
+        return  user;
+    }
+
+    // get user by name
+    public User get_user_by_name(String name){
+        User user = null;
+        for(int i = 0 ; i < users_table.size() ; i++){
+            User it_user = users_table.get(i);
+            if(it_user.getName().equals(name)){
+                user = it_user;
+            }
+        }
         return  user;
     }
 

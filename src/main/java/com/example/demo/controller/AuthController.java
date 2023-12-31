@@ -15,7 +15,7 @@ public class AuthController {
     @Autowired
     AuthService auth_service;
 
-    @GetMapping(value="/user/check")
+    @PostMapping(value="/user/check")
     public User login(@RequestBody LoginForm formData){
         return auth_service.get_user(formData);
     }

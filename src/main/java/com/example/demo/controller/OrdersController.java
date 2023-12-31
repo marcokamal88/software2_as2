@@ -12,15 +12,7 @@ public class OrdersController {
     @Autowired
     OrdersService orders_service;
 
-    @PostMapping(value = "/orders/create")
-    public String createOrder(@RequestBody CreateOrderInput input_data){ /// DUMMY
-
-        orders_service.addOrder(input_data);
-
-        return "hhhh";
-    }
-
-
+    // get the order
     @GetMapping (value = "/orders/{id}")
     public String getOrder(@PathVariable("id") Integer id){
 
@@ -34,5 +26,66 @@ public class OrdersController {
         }
 
     }
+    @PostMapping(value = "/orders/create")
+    public String createOrder(@RequestBody CreateOrderInput input){
+        Order order = orders_service.addOrder(input);
+
+        if(order != null){
+            return order.print();
+
+        }else{
+            return "Order Not Created";
+        }
+
+    }
+
+    // ship the order
+    @PostMapping(value = "/orders/ship/{id}")
+    public String shipOrder(@PathVariable("id") Integer id){
+        Order order = orders_service.shipOrder(id);
+
+        if(order != null){
+            return order.print();
+
+        }else{
+            return "Order Not Found";
+        }
+
+    }
+
+
+
+
+    // cancel the order
+    @PostMapping(value = "/orders/cancel/{id}")
+    public String cancelOrder(@PathVariable("id") Integer id){
+        Order order = orders_service.cancelOrder(id);
+
+        if(order != null){
+            return order.print();
+
+        }else{
+            return "Order Not Found";
+        }
+
+    }
+    // cancel the shipping
+
+    @PostMapping(value = "/orders/cancelShipping/{id}")
+    public String cancelShipping(@PathVariable("id") Integer id){
+        Order order = orders_service.cancelShipping(id);
+
+        if(order != null){
+            return order.print();
+
+        }else{
+            return "Order Not Found";
+        }
+
+    }
+
+
+
+
 
 }
